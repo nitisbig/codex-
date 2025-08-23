@@ -26,65 +26,151 @@ export default function Home() {
   return (
     <div
       style={{
-        backgroundColor: darkMode ? '#333' : '#fff',
-        color: darkMode ? '#fff' : '#000',
         minHeight: '100vh',
-        padding: '1rem',
+        background: darkMode
+          ? 'linear-gradient(135deg, #1e1e1e, #3a3a3a)'
+          : 'linear-gradient(135deg, #e0f2fe, #f8fafc)',
+        color: darkMode ? '#f3f4f6' : '#1e293b',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '2rem',
+        transition: 'all 0.3s ease-in-out',
       }}
     >
-      <button onClick={() => setDarkMode(!darkMode)}>
+      <button
+        onClick={() => setDarkMode(!darkMode)}
+        style={{
+          position: 'absolute',
+          top: '1rem',
+          right: '1rem',
+          backgroundColor: darkMode ? '#3b82f6' : '#1d4ed8',
+          color: '#fff',
+          border: 'none',
+          padding: '0.5rem 1rem',
+          borderRadius: '9999px',
+          cursor: 'pointer',
+        }}
+      >
         {darkMode ? 'Light Mode' : 'Dark Mode'}
       </button>
-      <h1>Hello World</h1>
-      <p>{time}</p>
-      <div style={{ marginTop: '2rem' }}>
-        <h2>Note Editor</h2>
-        <div style={{ marginBottom: '0.5rem' }}>
-          <button onClick={() => exec('bold')}>
-            <b>B</b>
-          </button>
-          <button onClick={() => exec('italic')}>
-            <i>I</i>
-          </button>
-          <button onClick={() => exec('underline')}>
-            <u>U</u>
-          </button>
+      <div
+        style={{
+          backgroundColor: darkMode ? '#374151' : '#ffffff',
+          borderRadius: '1rem',
+          boxShadow: '0 4px 14px rgba(0,0,0,0.1)',
+          maxWidth: '600px',
+          width: '100%',
+          padding: '2rem',
+        }}
+      >
+        <h1 style={{ textAlign: 'center', marginBottom: '0.5rem' }}>
+          Hello World
+        </h1>
+        <p style={{ textAlign: 'center', marginBottom: '2rem' }}>{time}</p>
+        <div>
+          <h2 style={{ marginBottom: '0.5rem' }}>Note Editor</h2>
+          <div style={{ marginBottom: '0.75rem' }}>
+            <button
+              onClick={() => exec('bold')}
+              style={{
+                marginRight: '0.5rem',
+                padding: '0.25rem 0.5rem',
+                borderRadius: '0.375rem',
+                border: 'none',
+                backgroundColor: darkMode ? '#4b5563' : '#3b82f6',
+                color: '#fff',
+                cursor: 'pointer',
+              }}
+            >
+              <b>B</b>
+            </button>
+            <button
+              onClick={() => exec('italic')}
+              style={{
+                marginRight: '0.5rem',
+                padding: '0.25rem 0.5rem',
+                borderRadius: '0.375rem',
+                border: 'none',
+                backgroundColor: darkMode ? '#4b5563' : '#3b82f6',
+                color: '#fff',
+                cursor: 'pointer',
+              }}
+            >
+              <i>I</i>
+            </button>
+            <button
+              onClick={() => exec('underline')}
+              style={{
+                marginRight: '0.5rem',
+                padding: '0.25rem 0.5rem',
+                borderRadius: '0.375rem',
+                border: 'none',
+                backgroundColor: darkMode ? '#4b5563' : '#3b82f6',
+                color: '#fff',
+                cursor: 'pointer',
+              }}
+            >
+              <u>U</u>
+            </button>
+            <button
+              onClick={() => {
+                if (editorRef.current) editorRef.current.innerHTML = '';
+              }}
+              style={{
+                padding: '0.25rem 0.5rem',
+                borderRadius: '0.375rem',
+                border: 'none',
+                backgroundColor: darkMode ? '#ef4444' : '#dc2626',
+                color: '#fff',
+                cursor: 'pointer',
+              }}
+            >
+              Clear
+            </button>
+          </div>
+          <div
+            ref={editorRef}
+            contentEditable
+            style={{
+              border: '1px solid #e5e7eb',
+              padding: '0.75rem',
+              minHeight: '120px',
+              borderRadius: '0.5rem',
+              backgroundColor: darkMode ? '#4b5563' : '#f9fafb',
+              color: darkMode ? '#f3f4f6' : '#1e293b',
+            }}
+          />
           <button
-            onClick={() => {
-              if (editorRef.current) editorRef.current.innerHTML = '';
+            onClick={saveNote}
+            style={{
+              marginTop: '0.75rem',
+              padding: '0.5rem 1rem',
+              borderRadius: '0.375rem',
+              border: 'none',
+              backgroundColor: darkMode ? '#10b981' : '#059669',
+              color: '#fff',
+              cursor: 'pointer',
             }}
           >
-            Clear
+            Save Note
           </button>
-        </div>
-        <div
-          ref={editorRef}
-          contentEditable
-          style={{
-            border: '1px solid #ccc',
-            padding: '0.5rem',
-            minHeight: '100px',
-            backgroundColor: darkMode ? '#555' : '#fff',
-            color: darkMode ? '#fff' : '#000',
-          }}
-        />
-        <button onClick={saveNote} style={{ marginTop: '0.5rem' }}>
-          Save Note
-        </button>
-        <div style={{ marginTop: '1rem' }}>
-          {notes.map((note, idx) => (
-            <div
-              key={idx}
-              style={{
-                border: '1px solid #ccc',
-                padding: '0.5rem',
-                marginBottom: '0.5rem',
-                backgroundColor: darkMode ? '#555' : '#fff',
-                color: darkMode ? '#fff' : '#000',
-              }}
-              dangerouslySetInnerHTML={{ __html: note }}
-            />
-          ))}
+          <div style={{ marginTop: '1rem' }}>
+            {notes.map((note, idx) => (
+              <div
+                key={idx}
+                style={{
+                  border: '1px solid #e5e7eb',
+                  padding: '0.75rem',
+                  marginBottom: '0.5rem',
+                  borderRadius: '0.5rem',
+                  backgroundColor: darkMode ? '#4b5563' : '#f9fafb',
+                  color: darkMode ? '#f3f4f6' : '#1e293b',
+                }}
+                dangerouslySetInnerHTML={{ __html: note }}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>
