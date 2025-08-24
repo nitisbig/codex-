@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 const projects = [
   {
     title: 'Project Alpha',
@@ -17,9 +19,40 @@ const projects = [
 ];
 
 export default function Home() {
+  const [bgUrl, setBgUrl] = useState(null);
+
+  useEffect(() => {
+    async function fetchImage() {
+      try {
+        const res = await fetch('https://api.nekosia.cat/api/v1/images/random');
+        if (!res.ok) return;
+        const data = await res.json();
+        const url =
+          data.url ||
+          data.image ||
+          data.file ||
+          data.data?.url ||
+          data.data?.image;
+        if (url) setBgUrl(url);
+      } catch (err) {
+        console.error('Error fetching background image:', err);
+      }
+    }
+    fetchImage();
+  }, []);
+
   return (
     <div className="dashboard">
-      <header className="hero">
+      <header
+        className="hero"
+        style={{
+          backgroundImage: bgUrl
+            ? `linear-gradient(135deg, rgba(99, 102, 241, 1), rgba(59, 130, 246, 0)), url(${bgUrl})`
+            : 'linear-gradient(135deg, rgba(99, 102, 241, 1), rgba(59, 130, 246, 0))',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
         <h1>Your Name</h1>
         <p>Full-stack developer crafting modern web experiences.</p>
         <div className="social">
@@ -69,11 +102,6 @@ export default function Home() {
         .hero {
           padding: 4rem 1rem;
           text-align: center;
-          background: linear-gradient(
-            135deg,
-            rgba(99, 102, 241, 1),
-            rgba(59, 130, 246, 0)
-          );
           color: #fff;
         }
         .hero h1 {
