@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const MODEL_OPTIONS = [
   'llama-3.1-8b-instant',
@@ -15,6 +15,12 @@ export default function Home() {
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    document.body.classList.toggle('dark-mode', darkMode);
+    return () => document.body.classList.remove('dark-mode');
+  }, [darkMode]);
 
   const sendMessage = async () => {
     if (!apiKey || !baseUrl || !model || !input) return;
@@ -60,7 +66,14 @@ export default function Home() {
   };
 
   return (
-    <div className="container">
+    <>
+      <button
+        className="themeToggle"
+        onClick={() => setDarkMode(!darkMode)}
+      >
+        {darkMode ? 'Light Mode' : 'Dark Mode'}
+      </button>
+      <div className="container">
       <h1>LLM Chatbot</h1>
       <input
         type="password"
@@ -236,8 +249,54 @@ export default function Home() {
             opacity: 0.2;
           }
         }
+        .themeToggle {
+          position: fixed;
+          top: 1rem;
+          right: 1rem;
+          padding: 0.5rem 1rem;
+          border: 1px solid #d1d5db;
+          border-radius: 0.5rem;
+          background: #fff;
+          color: #000;
+          cursor: pointer;
+        }
+        :global(body.dark-mode) {
+          background: #1f2937;
+        }
+        :global(body.dark-mode) .container {
+          background: #111827;
+          color: #f9fafb;
+        }
+        :global(body.dark-mode) .chat {
+          background: #1f2937;
+          border-color: #374151;
+        }
+        :global(body.dark-mode) .message.user {
+          background: #2563eb;
+        }
+        :global(body.dark-mode) .message.assistant {
+          background: #374151;
+          color: #f9fafb;
+        }
+        :global(body.dark-mode) .apiKeyInput,
+        :global(body.dark-mode) .baseUrlInput,
+        :global(body.dark-mode) .modelSelect,
+        :global(body.dark-mode) .inputArea {
+          background: #1f2937;
+          color: #f9fafb;
+          border-color: #374151;
+        }
+        :global(body.dark-mode) button {
+          background: #2563eb;
+        }
+        :global(body.dark-mode) .themeToggle {
+          background: #374151;
+          color: #f9fafb;
+          border-color: #4b5563;
+        }
       `}</style>
     </div>
+    </>
   );
 }
 
