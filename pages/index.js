@@ -1,6 +1,4 @@
-import { useEffect, useState } from 'react';
 import Head from 'next/head';
-import JokeBox from '../components/JokeBox';
 
 const projects = [
   {
@@ -21,28 +19,7 @@ const projects = [
 ];
 
 export default function Home() {
-  const [bgUrl, setBgUrl] = useState(null);
-
-  useEffect(() => {
-    async function fetchImage() {
-      try {
-        const res = await fetch('https://api.nekosia.cat/api/v1/images/random');
-        if (!res.ok) return;
-        const data = await res.json();
-        const url =
-          data.url ||
-          data.image ||
-          data.file ||
-          data.data?.url ||
-          data.data?.image;
-        if (url) setBgUrl(url);
-      } catch (err) {
-        console.error('Error fetching background image:', err);
-      }
-    }
-    fetchImage();
-  }, []);
-
+  // Home page redesigned with a static gradient hero and new layout.
   return (
     <div className="dashboard">
       <Head>
@@ -51,53 +28,37 @@ export default function Home() {
           rel="stylesheet"
         />
       </Head>
-      <header
-        className="hero"
-        style={{
-          backgroundImage: bgUrl
-            ? `linear-gradient(135deg, rgba(99, 102, 241, 1), rgba(59, 130, 246, 0)), url(${bgUrl})`
-            : 'linear-gradient(135deg, rgba(99, 102, 241, 1), rgba(59, 130, 246, 0))',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      >
-        <h1>Your Name</h1>
-        <p>Full-stack developer crafting modern web experiences.</p>
-        <div className="social">
-          <a
-            href="https://github.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            GitHub
-          </a>
-          <a
-            href="https://linkedin.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            LinkedIn
-          </a>
-        </div>
+      <header className="nav">
+        <nav>
+          <h1 className="logo">Your Name</h1>
+          <div className="links">
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+          </div>
+        </nav>
       </header>
-      <JokeBox />
-
-      <section className="projects">
-        <h2>Projects</h2>
+      <section className="hero">
+        <h2>Building thoughtful experiences for the web.</h2>
+        <p>Full-stack developer with a passion for design and code.</p>
+      </section>
+      <section id="projects" className="projects">
+        <h2>Featured Projects</h2>
         <div className="grid">
           {projects.map((project) => (
-            <a
-              key={project.title}
-              href={project.link}
-              className="card"
-            >
+            <a key={project.title} href={project.link} className="card">
               <h3>{project.title}</h3>
               <p>{project.description}</p>
             </a>
           ))}
         </div>
       </section>
-
+      <section id="contact" className="contact">
+        <h2>Let's work together</h2>
+        <p>
+          Reach me at{' '}
+          <a href="mailto:hello@example.com">hello@example.com</a>
+        </p>
+      </section>
       <footer className="footer">
         © {new Date().getFullYear()} Your Name. All rights reserved.
       </footer>
@@ -108,34 +69,50 @@ export default function Home() {
           color: #1f2937;
           line-height: 1.6;
         }
-        .hero {
-          padding: 4rem 1rem;
-          text-align: center;
-          color: #fff;
+        .nav {
+          background: #fff;
+          border-bottom: 1px solid #e5e7eb;
+          position: sticky;
+          top: 0;
+          z-index: 10;
         }
-        .hero h1 {
-          font-size: 2.5rem;
-          margin-bottom: 0.5rem;
+        .nav nav {
+          max-width: 1000px;
+          margin: 0 auto;
+          padding: 1rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
         }
-        .hero p {
-          margin-bottom: 1rem;
-          font-size: 1.125rem;
+        .logo {
+          font-weight: 600;
+          font-size: 1.25rem;
         }
-        .social a {
-          margin: 0 0.5rem;
-          color: #fff;
+        .links a {
+          margin-left: 1rem;
           text-decoration: none;
+          color: #4b5563;
           font-weight: 500;
+        }
+        .hero {
+          background: linear-gradient(135deg, #6366f1, #3b82f6);
+          color: #fff;
+          text-align: center;
+          padding: 6rem 1rem;
+        }
+        .hero h2 {
+          font-size: 2.5rem;
+          margin-bottom: 1rem;
         }
         .projects {
           max-width: 1000px;
           margin: 0 auto;
-          padding: 3rem 1rem;
+          padding: 4rem 1rem;
         }
         .projects h2 {
+          text-align: center;
           font-size: 2rem;
           font-weight: 600;
-          text-align: center;
           margin-bottom: 2rem;
         }
         .grid {
@@ -163,6 +140,16 @@ export default function Home() {
           box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
           transform: translateY(-4px);
           border-color: #6366f1;
+        }
+        .contact {
+          background: #f9fafb;
+          text-align: center;
+          padding: 4rem 1rem;
+        }
+        .contact a {
+          color: #6366f1;
+          text-decoration: none;
+          font-weight: 500;
         }
         .footer {
           text-align: center;
