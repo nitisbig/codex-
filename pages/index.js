@@ -1,104 +1,123 @@
-import { useState } from 'react';
-
-const initialTweets = [
-  { id: 1, author: 'Alice', handle: '@alice', content: 'Hello world! 👋' },
-  { id: 2, author: 'Bob', handle: '@bob', content: 'Second tweet with Next.js 😄' },
+const projects = [
+  {
+    title: 'Project Alpha',
+    description: 'Responsive web app built with Next.js.',
+    link: '#'
+  },
+  {
+    title: 'Project Beta',
+    description: 'Data visualization dashboard using D3.js.',
+    link: '#'
+  },
+  {
+    title: 'Project Gamma',
+    description: 'Mobile-first design for an e-commerce platform.',
+    link: '#'
+  }
 ];
 
 export default function Home() {
-  const [tweets, setTweets] = useState(initialTweets);
-  const [draft, setDraft] = useState('');
-
-  const postTweet = () => {
-    const text = draft.trim();
-    if (!text) return;
-    const newTweet = {
-      id: Date.now(),
-      author: 'You',
-      handle: '@you',
-      content: text,
-    };
-    setTweets([newTweet, ...tweets]);
-    setDraft('');
-  };
-
   return (
-    <div className="container">
-      <header className="header">
-        <h1>Home</h1>
+    <div className="dashboard">
+      <header className="hero">
+        <h1>Your Name</h1>
+        <p>Full-stack developer crafting modern web experiences.</p>
+        <div className="social">
+          <a
+            href="https://github.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GitHub
+          </a>
+          <a
+            href="https://linkedin.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            LinkedIn
+          </a>
+        </div>
       </header>
 
-      <section className="composer">
-        <textarea
-          value={draft}
-          onChange={(e) => setDraft(e.target.value)}
-          placeholder="What's happening?"
-        />
-        <button onClick={postTweet}>Tweet</button>
+      <section className="projects">
+        <h2>Projects</h2>
+        <div className="grid">
+          {projects.map((project) => (
+            <a
+              key={project.title}
+              href={project.link}
+              className="card"
+            >
+              <h3>{project.title}</h3>
+              <p>{project.description}</p>
+            </a>
+          ))}
+        </div>
       </section>
 
-      <ul className="feed">
-        {tweets.map((tweet) => (
-          <li key={tweet.id} className="tweet">
-            <strong>
-              {tweet.author} <span className="handle">{tweet.handle}</span>
-            </strong>
-            <p>{tweet.content}</p>
-          </li>
-        ))}
-      </ul>
+      <footer className="footer">
+        © {new Date().getFullYear()} Your Name. All rights reserved.
+      </footer>
 
       <style jsx>{`
-        .container {
-          max-width: 600px;
-          margin: 0 auto;
-          border-left: 1px solid #e5e7eb;
-          border-right: 1px solid #e5e7eb;
-          min-height: 100vh;
+        .dashboard {
           font-family: system-ui, sans-serif;
+          color: #1f2937;
+          line-height: 1.6;
         }
-        .header {
-          position: sticky;
-          top: 0;
-          background: #fff;
-          padding: 1rem;
-          border-bottom: 1px solid #e5e7eb;
-        }
-        .composer {
-          padding: 1rem;
-          border-bottom: 1px solid #e5e7eb;
-          display: flex;
-          flex-direction: column;
-        }
-        .composer textarea {
-          border: none;
-          resize: none;
-          min-height: 80px;
-          outline: none;
-          font-size: 1rem;
-        }
-        .composer button {
-          align-self: flex-end;
-          background: #1d9bf0;
+        .hero {
+          padding: 4rem 1rem;
+          text-align: center;
+          background: linear-gradient(135deg, #6366f1, #3b82f6);
           color: #fff;
-          border: none;
-          padding: 0.5rem 1rem;
-          border-radius: 9999px;
-          cursor: pointer;
-          margin-top: 0.5rem;
         }
-        .feed {
-          list-style: none;
-          margin: 0;
-          padding: 0;
+        .hero h1 {
+          font-size: 2.5rem;
+          margin-bottom: 0.5rem;
         }
-        .tweet {
-          padding: 1rem;
-          border-bottom: 1px solid #e5e7eb;
+        .hero p {
+          margin-bottom: 1rem;
+          font-size: 1.125rem;
         }
-        .handle {
+        .social a {
+          margin: 0 0.5rem;
+          color: #fff;
+          text-decoration: none;
+          font-weight: 500;
+        }
+        .projects {
+          max-width: 900px;
+          margin: 0 auto;
+          padding: 2rem 1rem;
+        }
+        .projects h2 {
+          font-size: 1.75rem;
+          margin-bottom: 1rem;
+        }
+        .grid {
+          display: grid;
+          gap: 1.5rem;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+        .card {
+          padding: 1.5rem;
+          border: 1px solid #e5e7eb;
+          border-radius: 0.5rem;
+          transition: box-shadow 0.2s ease, transform 0.2s ease;
+          background: #fff;
+        }
+        .card:hover {
+          box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+          transform: translateY(-2px);
+        }
+        .footer {
+          text-align: center;
+          padding: 2rem 1rem;
+          border-top: 1px solid #e5e7eb;
+          margin-top: 2rem;
+          font-size: 0.875rem;
           color: #6b7280;
-          font-weight: normal;
         }
       `}</style>
     </div>
