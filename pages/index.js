@@ -2,25 +2,29 @@ import { useState } from 'react';
 
 export default function Home() {
   const [apiKey, setApiKey] = useState('');
+  const [baseUrl, setBaseUrl] = useState(
+    'https://api.groq.com/openai/v1/chat/completions'
+  );
+  const [model, setModel] = useState('mixtral-8x7b');
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const sendMessage = async () => {
-    if (!apiKey || !input) return;
+    if (!apiKey || !baseUrl || !model || !input) return;
     const newMessages = [...messages, { role: 'user', content: input }];
     setMessages(newMessages);
     setInput('');
     setLoading(true);
     try {
-      const res = await fetch('https://api.openai.com/v1/chat/completions', {
+      const res = await fetch(baseUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
-          model: 'gpt-3.5-turbo',
+          model,
           messages: newMessages,
         }),
       });
@@ -55,6 +59,20 @@ export default function Home() {
         onChange={(e) => setApiKey(e.target.value)}
         className="apiKeyInput"
       />
+      <input
+        type="text"
+        placeholder="Base URL"
+        value={baseUrl}
+        onChange={(e) => setBaseUrl(e.target.value)}
+        className="baseUrlInput"
+      />
+      <input
+        type="text"
+        placeholder="Model"
+        value={model}
+        onChange={(e) => setModel(e.target.value)}
+        className="modelInput"
+      />
       <div className="chat">
         {messages.map((m, i) => (
           <div key={i} className={`message ${m.role}`}>
@@ -79,7 +97,9 @@ export default function Home() {
           display: flex;
           flex-direction: column;
         }
-        .apiKeyInput {
+        .apiKeyInput,
+        .baseUrlInput,
+        .modelInput {
           margin-bottom: 1rem;
           padding: 0.5rem;
         }
