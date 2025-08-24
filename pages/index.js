@@ -1,5 +1,13 @@
 import { useState } from 'react';
 
+const MODEL_OPTIONS = [
+  'llama-3.1-8b-instant',
+  'llama-3.3-70b-versatile',
+  'openai/gpt-oss-120b',
+  'openai/gpt-oss-20b',
+  'deepseek-r1-distill-llama-70b',
+];
+
 export default function Home() {
   const [apiKey, setApiKey] = useState('');
   const [baseUrl, setBaseUrl] = useState('https://api.groq.com/openai/v1');
@@ -68,13 +76,17 @@ export default function Home() {
         onChange={(e) => setBaseUrl(e.target.value)}
         className="baseUrlInput"
       />
-      <input
-        type="text"
-        placeholder="Model"
+      <select
         value={model}
         onChange={(e) => setModel(e.target.value)}
-        className="modelInput"
-      />
+        className="modelSelect"
+      >
+        {MODEL_OPTIONS.map((m) => (
+          <option key={m} value={m}>
+            {m}
+          </option>
+        ))}
+      </select>
       <div className="chat">
         {messages.map((m, i) => (
           <div key={i} className={`message ${m.role}`}>
@@ -101,7 +113,7 @@ export default function Home() {
         }
         .apiKeyInput,
         .baseUrlInput,
-        .modelInput {
+        .modelSelect {
           margin-bottom: 1rem;
           padding: 0.5rem;
         }
