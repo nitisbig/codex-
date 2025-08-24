@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import JokeBox from '../components/JokeBox';
 
 const projects = [
   {
@@ -72,6 +73,7 @@ export default function Home() {
           </a>
         </div>
       </header>
+      <JokeBox />
 
       <section className="projects">
         <h2>Projects</h2>
