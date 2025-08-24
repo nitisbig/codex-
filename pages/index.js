@@ -69,7 +69,11 @@ export default function Home() {
         .hero {
           padding: 4rem 1rem;
           text-align: center;
-          background: linear-gradient(135deg, #6366f1, #3b82f6);
+          background: linear-gradient(
+            135deg,
+            rgba(99, 102, 241, 1),
+            rgba(59, 130, 246, 0)
+          );
           color: #fff;
         }
         .hero h1 {
