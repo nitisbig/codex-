@@ -16,6 +16,7 @@ export default function Home() {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   useEffect(() => {
     document.body.classList.toggle('dark-mode', darkMode);
@@ -73,6 +74,34 @@ export default function Home() {
       >
         {darkMode ? 'Light Mode' : 'Dark Mode'}
       </button>
+      <button
+        className="settingsButton"
+        onClick={() => setSettingsOpen(!settingsOpen)}
+      >
+        ⚙️
+      </button>
+      {settingsOpen && (
+        <div className="settingsPanel">
+          <input
+            type="text"
+            placeholder="Base URL"
+            value={baseUrl}
+            onChange={(e) => setBaseUrl(e.target.value)}
+            className="baseUrlInput"
+          />
+          <select
+            value={model}
+            onChange={(e) => setModel(e.target.value)}
+            className="modelSelect"
+          >
+            {MODEL_OPTIONS.map((m) => (
+              <option key={m} value={m}>
+                {m}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
       <div className="container">
       <h1>LLM Chatbot</h1>
       <input
@@ -82,24 +111,6 @@ export default function Home() {
         onChange={(e) => setApiKey(e.target.value)}
         className="apiKeyInput"
       />
-      <input
-        type="text"
-        placeholder="Base URL"
-        value={baseUrl}
-        onChange={(e) => setBaseUrl(e.target.value)}
-        className="baseUrlInput"
-      />
-      <select
-        value={model}
-        onChange={(e) => setModel(e.target.value)}
-        className="modelSelect"
-      >
-        {MODEL_OPTIONS.map((m) => (
-          <option key={m} value={m}>
-            {m}
-          </option>
-        ))}
-      </select>
       <div className="chat">
         {messages.map((m, i) => (
           <div key={i} className={`message ${m.role}`}>
@@ -129,7 +140,7 @@ export default function Home() {
           background: #f3f4f6;
         }
         .container {
-          max-width: 600px;
+          max-width: 800px;
           margin: 2rem auto;
           font-family: sans-serif;
           display: flex;
@@ -160,7 +171,7 @@ export default function Home() {
         .chat {
           border: 1px solid #e5e7eb;
           padding: 1rem;
-          height: 300px;
+          height: 400px;
           overflow-y: auto;
           margin-bottom: 1rem;
           background: #f9fafb;
@@ -173,7 +184,8 @@ export default function Home() {
         .message {
           padding: 0.5rem 1rem;
           border-radius: 1rem;
-          max-width: 80%;
+          max-width: 90%;
+          line-height: 1.4;
           box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
           animation: fadeIn 0.3s ease;
         }
@@ -260,6 +272,29 @@ export default function Home() {
           color: #000;
           cursor: pointer;
         }
+        .settingsButton {
+          position: fixed;
+          top: 1rem;
+          right: 4.5rem;
+          padding: 0.5rem 0.75rem;
+          border: 1px solid #d1d5db;
+          border-radius: 0.5rem;
+          background: #fff;
+          cursor: pointer;
+        }
+        .settingsPanel {
+          position: fixed;
+          top: 3.5rem;
+          right: 1rem;
+          background: #fff;
+          border: 1px solid #d1d5db;
+          border-radius: 0.5rem;
+          padding: 1rem;
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
         :global(body.dark-mode) {
           background: #1f2937;
         }
@@ -292,6 +327,15 @@ export default function Home() {
         :global(body.dark-mode) .themeToggle {
           background: #374151;
           color: #f9fafb;
+          border-color: #4b5563;
+        }
+        :global(body.dark-mode) .settingsButton {
+          background: #374151;
+          color: #f9fafb;
+          border-color: #4b5563;
+        }
+        :global(body.dark-mode) .settingsPanel {
+          background: #374151;
           border-color: #4b5563;
         }
       `}</style>
