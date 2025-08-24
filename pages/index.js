@@ -2,10 +2,8 @@ import { useState } from 'react';
 
 export default function Home() {
   const [apiKey, setApiKey] = useState('');
-  const [baseUrl, setBaseUrl] = useState(
-    'https://api.groq.com/openai/v1/chat/completions'
-  );
-  const [model, setModel] = useState('mixtral-8x7b');
+  const [baseUrl, setBaseUrl] = useState('https://api.groq.com/openai/v1');
+  const [model, setModel] = useState('llama-3.3-70b-versatile');
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -17,7 +15,8 @@ export default function Home() {
     setInput('');
     setLoading(true);
     try {
-      const res = await fetch(baseUrl, {
+      const endpoint = `${baseUrl.replace(/\/$/, '')}/chat/completions`;
+      const res = await fetch(endpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -29,6 +28,9 @@ export default function Home() {
         }),
       });
       const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error?.message || 'Request failed');
+      }
       const content =
         data.choices?.[0]?.message?.content || 'No response from model.';
       setMessages([...newMessages, { role: 'assistant', content }]);
