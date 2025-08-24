@@ -32,13 +32,18 @@ export default function JokeBox() {
         Loading...
         <style jsx>{`
           .joke-box {
-            border: 1px solid #e5e7eb;
-            border-radius: 0.5rem;
-            padding: 1rem;
             margin: 2rem auto;
             max-width: 600px;
-            background: #fff;
+            padding: 2rem;
+            border-radius: 1rem;
             text-align: center;
+            color: #fff;
+            background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1),
+              0 4px 6px rgba(0, 0, 0, 0.05);
+          }
+          .joke-box p {
+            margin: 0.5rem 0;
           }
         `}</style>
       </div>
@@ -51,13 +56,18 @@ export default function JokeBox() {
       <p><em>{joke.punchline}</em></p>
       <style jsx>{`
         .joke-box {
-          border: 1px solid #e5e7eb;
-          border-radius: 0.5rem;
-          padding: 1rem;
           margin: 2rem auto;
           max-width: 600px;
-          background: #fff;
+          padding: 2rem;
+          border-radius: 1rem;
           text-align: center;
+          color: #fff;
+          background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+          box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1),
+            0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        .joke-box p {
+          margin: 0.5rem 0;
         }
       `}</style>
     </div>
