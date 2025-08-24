@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import Head from 'next/head';
 import JokeBox from '../components/JokeBox';
 
 const projects = [
@@ -44,6 +45,12 @@ export default function Home() {
 
   return (
     <div className="dashboard">
+      <Head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+          rel="stylesheet"
+        />
+      </Head>
       <header
         className="hero"
         style={{
@@ -97,7 +104,7 @@ export default function Home() {
 
       <style jsx>{`
         .dashboard {
-          font-family: system-ui, sans-serif;
+          font-family: 'Poppins', sans-serif;
           color: #1f2937;
           line-height: 1.6;
         }
@@ -121,29 +128,41 @@ export default function Home() {
           font-weight: 500;
         }
         .projects {
-          max-width: 900px;
+          max-width: 1000px;
           margin: 0 auto;
-          padding: 2rem 1rem;
+          padding: 3rem 1rem;
         }
         .projects h2 {
-          font-size: 1.75rem;
-          margin-bottom: 1rem;
+          font-size: 2rem;
+          font-weight: 600;
+          text-align: center;
+          margin-bottom: 2rem;
         }
         .grid {
           display: grid;
-          gap: 1.5rem;
-          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 2rem;
+          grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
         }
         .card {
-          padding: 1.5rem;
+          padding: 2rem;
           border: 1px solid #e5e7eb;
-          border-radius: 0.5rem;
-          transition: box-shadow 0.2s ease, transform 0.2s ease;
+          border-radius: 0.75rem;
           background: #fff;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+          transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+        .card h3 {
+          margin-bottom: 0.5rem;
+          font-size: 1.25rem;
+          font-weight: 600;
+        }
+        .card p {
+          color: #4b5563;
         }
         .card:hover {
-          box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
-          transform: translateY(-2px);
+          box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+          transform: translateY(-4px);
+          border-color: #6366f1;
         }
         .footer {
           text-align: center;
